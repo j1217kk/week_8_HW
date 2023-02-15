@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridColumnHeaderParams, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridColumnHeaderParams, GridValueGetterParams, GridSelectionModel } from '@mui/x-data-grid';
+import { serverCalls } from '../../api'
+import { useGetData } from '../../custom-hooks'
+import {
+    Button,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    DialogActions
+} from '@mui/material';
+import { CarForm } from '../CarForm';
+
+
+interface GridData{
+    data:{
+        id?:string
+    }
+}
+
 
 const columns: GridColDef[] = [
     { field: 'id',  width: 90, renderHeader: (params: GridColumnHeaderParams) => (
@@ -35,7 +54,7 @@ const columns: GridColDef[] = [
         ),
     },
     {
-        field: 'year',
+        field: 'model_year',
         type: 'string',
         width: 150,
         editable: true,
@@ -48,16 +67,53 @@ const columns: GridColDef[] = [
         ),
     },
     {
-        field: 'fullCar',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 320,
-        valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.year || ''} ${params.row.make || ''} ${params.row.model || ''}`,
+        field: 'type_',
+        type: 'string',
+        width: 150,
+        editable: true,
         renderHeader: (params: GridColumnHeaderParams) => (
             <h3>
             <strong>
-                {'Complete Car'}
+                {'Car Type'}
+            </strong>
+            </h3>
+        ),
+    },
+    {
+        field: 'price',
+        type: 'number',
+        width: 150,
+        editable: true,
+        renderHeader: (params: GridColumnHeaderParams) => (
+            <h3>
+            <strong>
+                {'Price'}
+            </strong>
+            </h3>
+        ),
+    },
+    {
+        field: 'horsepower',
+        type: 'string',
+        width: 150,
+        editable: true,
+        renderHeader: (params: GridColumnHeaderParams) => (
+            <h3>
+            <strong>
+                {'Horsepower'}
+            </strong>
+            </h3>
+        ),
+    },
+    {
+        field: 'license',
+        type: 'string',
+        width: 150,
+        editable: true,
+        renderHeader: (params: GridColumnHeaderParams) => (
+            <h3>
+            <strong>
+                {'License'}
             </strong>
             </h3>
         ),
@@ -65,29 +121,49 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-    { id: 1, year: '1981', make: 'DMC', model: 'DeLorean' },
-    { id: 2, year: '2001', make: 'Honda', model: 'Accord' },
-    { id: 3, year: '2013', make: 'Hyundai', model: 'Gen Coupe 3.8L' },
-    { id: 4, year: '2022', make: 'Ford', model: 'Tundra' },
-    { id: 5, year: '2020', make: 'Ferrari', model: 'Speciale' },
-    { id: 6, year: '2016', make: 'Jeep', model: 'Cherokee' },
-    { id: 7, year: '2010', make: 'Lamborghini', model: 'Aventador' },
-    { id: 8, year: '2018', make: 'Lamborghini', model: 'Urus' },
-    { id: 9, year: '2015', make: 'McLaren', model: 'P2' },
+    { id: 1, model_year: '1981', make: 'DMC', model: 'DeLorean', type_: 'Coupe', price: 30000, horsepower: '330', license: 'BK2DAFT' },
 ];
 
 export const DataTable = () => {
+    let { carData, getData } = useGetData();
+    let [open, setOpen] = useState(false);
+    let [gridData, setData] = useState<GridSelectionModel>([])
+    let handleOpen = () => {
+        setOpen(true)
+    }
+    let handleClose = () => {
+        setOpen(false)
+    }
+
+    let deleteData = () => {
+        serverCalls.delete(`${gridData[0]}`)
+        getData()
+    }
+    console.log(gridData)
     return (
         <Box sx={{ height: 400, width: '100%' }}>
+            <h2>Cars In Inventory</h2>
             <DataGrid
-            rows={rows}
+            rows={carData}
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[5]}
             checkboxSelection
-            disableSelectionOnClick
-            experimentalFeatures={{ newEditingApi: true }}
+            onSelectionModelChange = {(newSelectionModel) => {setData(newSelectionModel)}}
+            {...carData}
             />
+            <Button onClick={handleOpen}>Update</Button>
+            <Button variant="contained" color="secondary" onClick={deleteData}>Delete</Button>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Update a Car</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>Car ID: {gridData[0]}</DialogContentText>
+                    <CarForm id={`${gridData[0]}`}/>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="secondary">Cancel</Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     )
 }

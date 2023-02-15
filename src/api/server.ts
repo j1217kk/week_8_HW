@@ -1,8 +1,8 @@
-let token = `YOUR_API_TOKEN_HERE`
+let token = `2c899ff9c94cb224b232d868701f96145d6ad8dcf4e6402d`
 
 export const serverCalls = {
     get: async () => {
-        const response = await fetch(`FLASK URL`, {
+        const response = await fetch(`https://stingy-decorous-laugh.glitch.me/api/cars`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ export const serverCalls = {
     },
 
     create: async(data: any = {}) => {
-        const response = await fetch(`flask url`, {
+        const response = await fetch(`https://stingy-decorous-laugh.glitch.me/api/cars`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -30,7 +30,7 @@ export const serverCalls = {
         return await response.json()
     },
     update: async(id:string, data: any = {}) =>{
-        const response = await fetch(`flask url`, {
+        const response = await fetch(`https://stingy-decorous-laugh.glitch.me/api/cars/${id}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -40,7 +40,7 @@ export const serverCalls = {
         });
     },
     delete: async(id:string) =>{
-        const response = await fetch(`flask url`, {
+        const response = await fetch(`https://stingy-decorous-laugh.glitch.me/api/cars/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',

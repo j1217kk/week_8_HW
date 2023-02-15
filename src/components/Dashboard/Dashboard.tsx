@@ -10,7 +10,12 @@ import { Drawer as MUIDrawer,
     Divider,
     Button,
     CssBaseline,
-    Box
+    Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
@@ -18,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { theme } from  "../../Theme/theme";
 import { DataTable } from '../DataTable';
 import { GridOverlay } from '@mui/x-data-grid';
+import { CarForm } from '../CarForm';
 
 
 const drawerWidth = 240;
@@ -98,6 +104,8 @@ export const Dashboard = () => {
 
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
+
+    const [dialogOpen, setDialogOpen] = useState(false)
     
     const handleDrawerOpen = () => {
         setOpen(true)
@@ -105,6 +113,16 @@ export const Dashboard = () => {
     const handleDrawerClose = () => {
         setOpen(false)
     }
+
+    const handleDialogOpen = () => {
+        setDialogOpen(true)
+    }
+
+    const handleDialogClose = () => {
+        setDialogOpen(false)
+    }
+
+
 
     const itemsList = [
         {
@@ -125,7 +143,17 @@ export const Dashboard = () => {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" noWrap>Dashboard</Typography>
-                    <Button sx={myStyles.toolbarButton}>Add New Car</Button>
+                    <Button sx={myStyles.toolbarButton} onClick={handleDialogOpen}>Add New Car</Button>
+                    <Dialog open={dialogOpen} onClose={handleDialogClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Add New Car</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>Add a New Car</DialogContentText>
+                            <CarForm />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleDialogClose} color="success">Cancel</Button>
+                        </DialogActions>
+                    </Dialog>
                 </Toolbar>
             </AppBar>
             <MUIDrawer sx={open ? myStyles.drawer: myStyles.hide} variant='persistent' anchor='left' open={open} style={{width:drawerWidth}}>

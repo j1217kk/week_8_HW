@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home, Dashboard, SignIn } from './components';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './Theme/theme';
+import { Provider } from 'react-redux';
+import { store } from './redux/store'
 import './styles.css'
 
 const root = ReactDOM.createRoot(
@@ -9,14 +13,17 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Router>
-        <Routes>
-        <Route path='/' element={<Home title={'Car Collection'}/>} />
-        <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/signin' element={<SignIn/>}/>
-
-        </Routes>
-    </Router>
+    <Provider store = {store}>
+    <ThemeProvider theme={theme}>
+      <Router>
+          <Routes>
+          <Route path='/' element={<Home title={'Car Collection'}/>} />
+          <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path='/signin' element={<SignIn/>}/>
+          </Routes>
+      </Router>
+    </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
 
