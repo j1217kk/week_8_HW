@@ -17,6 +17,7 @@ import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { theme } from  "../../Theme/theme";
 import { DataTable } from '../DataTable';
+import { GridOverlay } from '@mui/x-data-grid';
 
 
 const drawerWidth = 240;
@@ -28,7 +29,7 @@ const myStyles = {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
         }),
-        backgroundColor: theme.palette.success.dark
+        backgroundColor: "PaleTurquoise"
     },
     appBarShift: {
         width: `calc(100% -${drawerWidth}px)`,
@@ -84,8 +85,8 @@ const myStyles = {
         backgroundColor: theme.palette.secondary.light,
         color: 'white',
         '&:hover': {
-            backgroundColor: 'lightblue',
-            color: 'darkorange',
+            backgroundColor: 'springgreen',
+            color: 'orange',
             boxShadow: 4,
         },
         fontWeight: 'bold',

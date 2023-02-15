@@ -17,7 +17,8 @@ const Root = styled('div')({
 const NavbarContainer = styled('div')({
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: "maroon",
 })
 
 const Logo = styled('h1')({
@@ -25,10 +26,10 @@ const Logo = styled('h1')({
 })
 
 const LogoA = styled(Link)({
-    color: 'rgb(28, 24, 22)',
+    color: 'white',
     listStyle: 'none',
     textTransform: 'uppercase',
-    textDecoration: 'none'
+    textDecoration: 'none',
 })
 
 const LogoNavigation = styled('ul')({
@@ -41,7 +42,7 @@ const LogoNavigation = styled('ul')({
 const NavA = styled(Link)({
     display: 'block',
     padding: '1em',
-    color: 'black'
+    color: 'white'
 })
 
 const Main = styled('main')({
