@@ -14,6 +14,7 @@ import {
 import { CarForm } from '../CarForm';
 
 
+
 interface GridData{
     data:{
         id?:string
@@ -140,32 +141,42 @@ export const DataTable = () => {
         getData()
     }
     console.log(gridData)
-    return (
-        <Box sx={{ height: 400, width: '100%' }}>
-            <h2>Cars In Inventory</h2>
-            <DataGrid
-            rows={carData}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-            onSelectionModelChange = {(newSelectionModel) => {setData(newSelectionModel)}}
-            {...carData}
-            />
-            <Button onClick={handleOpen}>Update</Button>
-            <Button variant="contained" color="secondary" onClick={deleteData}>Delete</Button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Update a Car</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>Car ID: {gridData[0]}</DialogContentText>
-                    <CarForm id={`${gridData[0]}`}/>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="secondary">Cancel</Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
-    )
+    if (localStorage.getItem('myAuth') == 'true'){
+
+        return (
+            <Box sx={{ height: 400, width: '100%' }}>
+                <h2>Cars In Inventory</h2>
+                <DataGrid
+                rows={carData}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[5]}
+                checkboxSelection
+                onSelectionModelChange = {(newSelectionModel) => {setData(newSelectionModel)}}
+                {...carData}
+                />
+                <Button onClick={handleOpen}>Update</Button>
+                <Button variant="contained" color="secondary" onClick={deleteData}>Delete</Button>
+                <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Update a Car</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>Car ID: {gridData[0]}</DialogContentText>
+                        <CarForm id={`${gridData[0]}`}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="secondary">Cancel</Button>
+                    </DialogActions>
+                </Dialog>
+            </Box>
+        )
+    } else {
+        return (
+            <div>
+                <h3>Please Sign In to View Cars</h3>
+            </div>
+        )
+
+    }
 }
 
 
